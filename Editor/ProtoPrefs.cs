@@ -75,7 +75,7 @@ namespace E7.Protobuf
             get
             {
                 string ret = EditorPrefs.GetString(prefProtocExecutable, "");
-                if (ret.StartsWith(".."))
+                if (ret.StartsWith("..") || ret.StartsWith("."))
                     return Path.Combine(Application.dataPath, ret);
                 else
                     return ret;
@@ -91,7 +91,7 @@ namespace E7.Protobuf
             get
             {
                 string ret = EditorPrefs.GetString(prefGrpcCSharpExecutable, "");
-                if (ret.StartsWith(".."))
+                if (ret.StartsWith("..") || ret.StartsWith("."))
                     return Path.Combine(Application.dataPath, ret);
                 else
                     return ret;
