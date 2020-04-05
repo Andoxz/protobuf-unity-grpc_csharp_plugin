@@ -110,15 +110,15 @@ namespace E7.Protobuf
             {
                 string outputPath = Path.GetDirectoryName(protoFileSystemPath);
 
-                string options = " --csharp_out \"{0}\" ";
+                string options = " --plugin=protoc-gen-grpc=\"{1}\" --csharp_out=\"{0}\" --grpc_out=\"{0}\" ";
                 foreach (string s in includePaths)
                 {
-                    options += string.Format(" --proto_path \"{0}\" ", s);
+                    options += string.Format(" --proto_path=\"{0}\" ", s);
                 }
 
                 //string combinedPath = string.Join(" ", optionFiles.Concat(new string[] { protoFileSystemPath }));
 
-                string finalArguments = string.Format("\"{0}\"", protoFileSystemPath) + string.Format(options, outputPath);
+                string finalArguments = string.Format("\"{0}\"", protoFileSystemPath) + string.Format(options, outputPath, ProtoPrefs.grpcCSharpPath);
 
                 if (ProtoPrefs.logStandard)
                 {

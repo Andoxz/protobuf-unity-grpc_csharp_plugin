@@ -8,6 +8,7 @@ namespace E7.Protobuf
     {
         internal static readonly string prefProtocEnable = "ProtobufUnity_Enable";
         internal static readonly string prefProtocExecutable = "ProtobufUnity_ProtocExecutable";
+        internal static readonly string prefGrpcCSharpExecutable = "ProtobufUnity_GrpcCSharpExecutable";
         internal static readonly string prefLogError = "ProtobufUnity_LogError";
         internal static readonly string prefLogStandard = "ProtobufUnity_LogStandard";
         internal static bool enabled
@@ -57,6 +58,18 @@ namespace E7.Protobuf
             }
         }
 
+        internal static string rawGrpcCSharpPath
+        {
+            get
+            {
+                return EditorPrefs.GetString(prefGrpcCSharpExecutable, "");
+            }
+            set
+            {
+                EditorPrefs.SetString(prefGrpcCSharpExecutable, value);
+            }
+        }
+
         internal static string excPath
         {
             get
@@ -70,6 +83,22 @@ namespace E7.Protobuf
             set
             {
                 EditorPrefs.SetString(prefProtocExecutable, value);
+            }
+        }
+
+        internal static string grpcCSharpPath
+        {
+            get
+            {
+                string ret = EditorPrefs.GetString(prefGrpcCSharpExecutable, "");
+                if (ret.StartsWith(".."))
+                    return Path.Combine(Application.dataPath, ret);
+                else
+                    return ret;
+            }
+            set
+            {
+                EditorPrefs.SetString(prefGrpcCSharpExecutable, value);
             }
         }
 
@@ -107,6 +136,13 @@ namespace E7.Protobuf
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Path to protoc", GUILayout.Width(100));
             rawExcPath = EditorGUILayout.TextField(rawExcPath, GUILayout.ExpandWidth(true));
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.HelpBox(@"On Windows put the path to grpc_csharp_plugin.exe (e.g. C:\My Dir\grpc_csharp_plugin.exe), on macOS and Linux you can use ""which grpc_csharp_plugin"" to find its location. (e.g. /usr/local/bin/grpc_csharp_plugin)", MessageType.Info);
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Path to grpc_csharp_plugin", GUILayout.Width(100));
+            rawGrpcCSharpPath = EditorGUILayout.TextField(rawGrpcCSharpPath, GUILayout.ExpandWidth(true));
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();
